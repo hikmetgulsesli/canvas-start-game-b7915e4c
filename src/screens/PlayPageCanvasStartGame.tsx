@@ -14,12 +14,16 @@ export interface PlayPageCanvasStartGameProps {
   actions?: {
     "start-game-1"?: () => void;
   };
-
+  /** Live high score value bound to OBS_START_GAME_CURRENT_HIGH_SCORE_VALUE. */
+  highScore?: number;
+  /** Live phase of STATE_GAME_STATE. */
+  phase?: "ready" | "playing";
 }
 
 export type PlayPageCanvasStartGameActionCallbacks = NonNullable<PlayPageCanvasStartGameProps["actions"]>;
 
-export function PlayPageCanvasStartGame({ actions }: PlayPageCanvasStartGameProps) {
+export function PlayPageCanvasStartGame({ actions, highScore, phase }: PlayPageCanvasStartGameProps) {
+  const boundHighScore = typeof highScore === "number" && Number.isFinite(highScore) ? highScore : 0;
   return (
     <>
       <div data-surface-id="SURF_PLAY_PAGE" className="flex-1 flex flex-col min-h-screen" data-setfarm-element-ref="E000001" data-observable-refs="OBS_START_GAME_PLAY_ROUTE_STABILITY">
@@ -50,7 +54,7 @@ export function PlayPageCanvasStartGame({ actions }: PlayPageCanvasStartGameProp
               <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center justify-between shadow-sm">
                 <div>
                   <div className="text-xs uppercase tracking-wider text-slate-400 font-medium">High Score</div>
-                  <div className="text-2xl font-bold font-mono text-amber-400 mt-1" data-setfarm-element-ref="E000002" role="status" aria-label="Current high score" data-observable-refs="OBS_START_GAME_CURRENT_HIGH_SCORE_VALUE">0</div>
+                  <div className="text-2xl font-bold font-mono text-amber-400 mt-1" data-setfarm-element-ref="E000002" role="status" aria-label="Current high score" data-observable-refs="OBS_START_GAME_CURRENT_HIGH_SCORE_VALUE" data-value={String(boundHighScore)}>{boundHighScore}</div>
                 </div>
                 <div className="h-10 w-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 font-mono text-sm">
                   TOP
@@ -61,7 +65,7 @@ export function PlayPageCanvasStartGame({ actions }: PlayPageCanvasStartGameProp
               <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center justify-between shadow-sm">
                 <div>
                   <div className="text-xs uppercase tracking-wider text-slate-400 font-medium">System State</div>
-                  <div className="text-sm font-semibold text-emerald-400 mt-1 flex items-center gap-2" data-setfarm-element-ref="E000003" role="status" aria-label="Game status" data-observable-refs="OBS_START_GAME_GAME_STARTED_TEXT">
+                  <div className="text-sm font-semibold text-emerald-400 mt-1 flex items-center gap-2" data-setfarm-element-ref="E000003" role="status" aria-label="Game status" data-observable-refs="OBS_START_GAME_GAME_STARTED_TEXT" data-value={phase === "playing" ? "playing" : "ready"}>
                     <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     Game started
                   </div>
