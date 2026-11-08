@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play Page - Canvas Start Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+  <div data-surface-id="SURF_PLAY_PAGE" class="flex-1 flex flex-col min-h-screen">
+    <!-- Non-actionable Header Bar -->
+    <div class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="h-8 w-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
+          C
+        </div>
+        <div>
+          <h1 class="text-base font-semibold tracking-wide text-white">Canvas Game Studio</h1>
+          <p class="text-xs text-slate-400">Standard Arcade Environment</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6 text-sm">
+        <div class="flex items-center space-x-2">
+          <span class="text-xs uppercase tracking-wider text-slate-400 font-medium">Session:</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">/play</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6 flex flex-col gap-6">
+      <!-- Status & Stats Toolbar (Non-actionable) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- High Score Status Card -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center justify-between shadow-sm">
+          <div>
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-medium">High Score</div>
+            <div class="text-2xl font-bold font-mono text-amber-400 mt-1" role="status" aria-label="Current high score">0</div>
+          </div>
+          <div class="h-10 w-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 font-mono text-sm">
+            TOP
+          </div>
+        </div>
+
+        <!-- Game Status Card -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center justify-between shadow-sm">
+          <div>
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-medium">System State</div>
+            <div class="text-sm font-semibold text-emerald-400 mt-1 flex items-center gap-2" role="status" aria-label="Game status">
+              <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Game started
+            </div>
+          </div>
+          <div class="h-10 w-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xs font-mono">
+            RUN
+          </div>
+        </div>
+
+        <!-- Controls Card (Hosts the exact Start Game button) -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center justify-between shadow-sm">
+          <div>
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-medium">Engine Control</div>
+            <div class="text-xs text-slate-400 mt-1">Ready for user dispatch</div>
+          </div>
+          <div>
+            <button
+              type="button"
+              data-action="ACT_START_GAME"
+              data-control-slot="CSLOT_START_GAME_START_BUTTON"
+              class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition-colors shadow-md shadow-indigo-600/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+              Start Game
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contained Surface: SURF_GAME_CANVAS -->
+      <div data-surface-id="SURF_GAME_CANVAS" class="flex-1 min-h-[460px] bg-slate-950 border border-slate-800 rounded-2xl relative overflow-hidden flex flex-col items-center justify-center shadow-inner">
+        <!-- Visual Grid Overlay -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b0f_1px,transparent_1px),linear-gradient(to_bottom,#1e293b0f_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"></div>
+
+        <!-- Canvas Center Display -->
+        <div class="relative z-10 flex flex-col items-center text-center px-4 max-w-md">
+          <div class="w-16 h-16 rounded-2xl bg-indigo-950/60 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-4 shadow-xl">
+            <div class="w-6 h-6 border-2 border-indigo-400 rounded"></div>
+          </div>
+          <h2 class="text-lg font-semibold text-slate-200">Interactive Canvas Surface</h2>
+          <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+            The active rendering viewport is ready. High scores and game events are tracked on route /play.
+          </p>
+          <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-slate-400">
+            <span>Surface: SURF_GAME_CANVAS</span>
+          </div>
+        </div>
+
+        <!-- Coordinates Corner Indicators -->
+        <div class="absolute bottom-3 left-4 text-[11px] font-mono text-slate-600 pointer-events-none select-none">
+          X: 000 | Y: 000
+        </div>
+        <div class="absolute bottom-3 right-4 text-[11px] font-mono text-slate-600 pointer-events-none select-none">
+          Viewport: 100% Active
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Information (Non-actionable) -->
+    <footer class="border-t border-slate-800/80 bg-slate-900/40 px-6 py-3 text-center text-xs text-slate-500">
+      Canvas Start Game &mdash; Route: /play
+    </footer>
+  </div>
+</body>
+</html>
